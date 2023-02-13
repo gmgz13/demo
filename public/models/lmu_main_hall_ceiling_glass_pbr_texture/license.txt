@@ -1,0 +1,11 @@
+Model Information:
+* title:	LMU Main Hall Ceiling Glass (PBR Texture)
+* source:	https://sketchfab.com/3d-models/lmu-main-hall-ceiling-glass-pbr-texture-b1503a8d600b4f3e94612141a9bca633
+* author:	greansilver (https://sketchfab.com/greansilver)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "LMU Main Hall Ceiling Glass (PBR Texture)" (https://sketchfab.com/3d-models/lmu-main-hall-ceiling-glass-pbr-texture-b1503a8d600b4f3e94612141a9bca633) by greansilver (https://sketchfab.com/greansilver) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	VR exhibition gallery baked
+* source:	https://sketchfab.com/3d-models/vr-exhibition-gallery-baked-ee6f3b0d9db14b62a1b3aeef04315313
+* author:	ida61xq (https://sketchfab.com/ida61xq)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "VR exhibition gallery baked" (https://sketchfab.com/3d-models/vr-exhibition-gallery-baked-ee6f3b0d9db14b62a1b3aeef04315313) by ida61xq (https://sketchfab.com/ida61xq) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

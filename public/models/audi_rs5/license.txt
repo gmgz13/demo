@@ -1,0 +1,11 @@
+Model Information:
+* title:	Audi RS5
+* source:	https://sketchfab.com/3d-models/audi-rs5-75d636ab26b1423ca61ffd0fd758fd0a
+* author:	WillisChiejina (https://sketchfab.com/WillisChiejina)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Audi RS5" (https://sketchfab.com/3d-models/audi-rs5-75d636ab26b1423ca61ffd0fd758fd0a) by WillisChiejina (https://sketchfab.com/WillisChiejina) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
