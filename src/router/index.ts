@@ -8,9 +8,11 @@ const router = createRouter({
         {
             path:'/',
             redirect:'home',
+            name:'/',
             children:[
                 {
                     path: '/home',
+                    name:'home',
                     component: threeDemo
                 }
             ]

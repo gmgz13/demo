@@ -51,8 +51,7 @@ let background = 'vr_exhibition_gallery_baked'
 let carColor = 'Object_6'
 let spotLight = new SpotLight()
 let ambientLight = new AmbientLight()
-//相机锁
-let cameraMoveClock = false
+
 //创建灯光
 const setLight = () => {
   //单光源
@@ -76,9 +75,7 @@ const setLight = () => {
   //聚光锥的半影衰减百分比。在0和1之间的值。默认为0。
   spotLight.penumbra = 0.3;
   //从聚光灯的位置以弧度表示聚光灯的最大范围。应该不超过 Math.PI/2。默认值为 Math.PI/3。
-  spotLight.angle = 0.3;
-  spotLight.shadow.bias = -0.0001;
-  spotLight.castShadow = true;
+  spotLight.angle = 0.28;
   spotLight.target.position.set(0, 0, 0);
 
   scene.add(spotLight.target);
@@ -109,6 +106,7 @@ const setCamera = () => {
   const {x, y, z} = defaultMap
   camera = new PerspectiveCamera(30, innerWidth / innerHeight, 1, 500 )
   camera.position.set(x, y, z)
+
 }
 // 设置模型控制
 const setControls = () => {
@@ -120,10 +118,12 @@ const setControls = () => {
   controls.minPolarAngle = 0;  // 设置垂直旋转的最小角度
   // 这两个设置目前达到的效果是不能看模型的底面
   controls.autoRotate = true; // 镜头自动旋转
-  controls.update()
+  controls.enableDamping = true //启用阻尼
+  controls.dampingFactor = 0.11 // 动态阻尼系数
+  controls.rotateSpeed = 0.5 //旋转速度
 }
 //相机放大范围
-let around = 13
+let around = 12
 const setCameraAnimate = () => {
   let x = camera.position.x
   let y = camera.position.y
@@ -147,7 +147,9 @@ const setContactShadow = () => {
 // 循环场景 、相机、 位置更新
 const loop = () => {
   renderer.render(scene, camera)
+  renderer.shadowMap.enabled = true
   requestAnimationFrame(loop)
+  controls.update()
 }
 
 //设置材质
@@ -156,9 +158,12 @@ const material = new MeshPhysicalMaterial({
   roughness:0.6,
   opacity:1,
   clearcoat:0.1,
-  clearcoatRoughness:0,
+  clearcoatRoughness:0.3,
   envMapIntensity: 2,
   color:'#222',
+  transmission:1.5,
+  attenuationDistance:0.5,
+  ior:2
 })
 //设置车身颜色
 const setCarColor = (index:number) => {
