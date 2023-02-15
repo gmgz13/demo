@@ -55,14 +55,12 @@ let ambientLight = new AmbientLight()
 //创建灯光
 const setLight = () => {
   //单光源
-  light1 = new DirectionalLight(0xffffff, 1)
+  light1 = new DirectionalLight(0xffffff, 0.5)
   light1.position.set(5, 10, 5)
-  light2 = new DirectionalLight(0xffffff, 1)
+  light2 = new DirectionalLight(0xffffff, 0.5)
   light2.position.set(5, 10, -5)
   light3 = new DirectionalLight(0xffffff, 1)
   light3.position.set(-5, 10, -5)
-  light3 = new DirectionalLight(0xffffff, 2)
-  light3.position.set(-5, 10, 5)
 
   scene.add(light1)
   scene.add(light2)
@@ -71,11 +69,11 @@ const setLight = () => {
   //聚光灯
   spotLight.position.set(0, 13, 0);
   //intensity - (可选参数) 光照强度。 缺省值 1。
-  spotLight.intensity = 4;
+  spotLight.intensity = 3.5;
   //聚光锥的半影衰减百分比。在0和1之间的值。默认为0。
-  spotLight.penumbra = 0.3;
+  spotLight.penumbra = 0.2;
   //从聚光灯的位置以弧度表示聚光灯的最大范围。应该不超过 Math.PI/2。默认值为 Math.PI/3。
-  spotLight.angle = 0.28;
+  spotLight.angle = 0.23;
   spotLight.target.position.set(0, 0, 0);
 
   scene.add(spotLight.target);
@@ -104,7 +102,7 @@ const setScene = () => {
 // 创建相机
 const setCamera = () => {
   const {x, y, z} = defaultMap
-  camera = new PerspectiveCamera(30, innerWidth / innerHeight, 1, 500 )
+  camera = new PerspectiveCamera(25, innerWidth / innerHeight, 1, 500 )
   camera.position.set(x, y, z)
 
 }
@@ -154,14 +152,14 @@ const loop = () => {
 
 //设置材质
 const material = new MeshPhysicalMaterial({
-  metalness:0.8,
-  roughness:0.6,
-  opacity:1,
+  metalness:0.88,
+  roughness:0.38,
+  opacity:0.8,
   clearcoat:0.1,
-  clearcoatRoughness:0.3,
+  clearcoatRoughness:0.1,
   envMapIntensity: 2,
   color:'#222',
-  transmission:1.5,
+  transmission:0.1,
   attenuationDistance:0.5,
   ior:2
 })
@@ -307,9 +305,11 @@ canvas {
 
 .mask {
   color: #fff;
-  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
 }
 
