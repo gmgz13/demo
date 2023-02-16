@@ -2,64 +2,33 @@
 import {onMounted, ref} from 'vue'
 import {
   AmbientLight,
-  Box3, Clock,
-  Color,
-  DirectionalLight, Fog, GridHelper,
-  Group, MeshBasicMaterial,
+  Box3,
+  DirectionalLight,
+  Group,
   MeshPhysicalMaterial,
   PerspectiveCamera,
   Scene,
-  SpotLight, TextureLoader, Vector3,
+  SpotLight,
   WebGLRenderer
 } from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
-import {RGBELoader} from "three/examples/jsm/loaders/RGBELoader";
-//车身颜色数组
-const colorAry = [
-  "rgb(64,0,0)",
-  "rgb(142, 36, 170)",
-  "rgb(81, 45, 168)",
-  "rgb(48, 63, 159)",
-  "rgb(30, 136, 229)",
-  "rgb(0, 137, 123)",
-  "rgb(67, 160, 71)",
-  "rgb(251, 192, 45)",
-  "rgb(245, 124, 0)",
-  "rgb(230, 74, 25)",
-  "rgb(233, 30, 78)",
-  "rgb(156, 39, 176)",
-  "rgb(0, 0, 0)"] // 车身颜色数组
-const loader = new GLTFLoader() //引入模型的loader实例
-const defaultMap = {
-  x: 4,
-  y: 2,
-  z: 8,
-}// 相机的默认坐标
 
-let scene:Scene,
-    camera:PerspectiveCamera,
-    renderer:WebGLRenderer,
-    controls:OrbitControls,
-    light1,
-    light2,
-    light3
-let isLoading = ref(true) //是否显示loading  这个load模型监听的进度
-let loadingWidth = ref(0)// loading的进度
-let carName = 'free_jaguar_f-type_rigged_high-poly'
-let background = 'vr_exhibition_gallery_baked'
-let carColor = 'Object_6'
-let spotLight = new SpotLight()
-let ambientLight = new AmbientLight()
+let renderer:WebGLRenderer
 
 //创建灯光
+let light1,
+    light2,
+    light3
+let spotLight = new SpotLight()
+let ambientLight = new AmbientLight()
 const setLight = () => {
   //单光源
-  light1 = new DirectionalLight(0xffffff, 0.5)
+  light1 = new DirectionalLight(0xffffff, 0.8)
   light1.position.set(5, 10, 5)
-  light2 = new DirectionalLight(0xffffff, 0.5)
+  light2 = new DirectionalLight(0xffffff, 0.8)
   light2.position.set(5, 10, -5)
-  light3 = new DirectionalLight(0xffffff, 1)
+  light3 = new DirectionalLight(0xffffff, 0.8)
   light3.position.set(-5, 10, -5)
 
   scene.add(light1)
@@ -86,6 +55,7 @@ const setLight = () => {
 
 
 // 创建场景
+let scene:Scene
 const setScene = () => {
   scene = new Scene()
   renderer = new WebGLRenderer({
@@ -100,6 +70,13 @@ const setScene = () => {
 }
 
 // 创建相机
+const defaultMap = {
+  x: 4,
+  y: 2,
+  z: 8,
+}// 相机的默认坐标
+
+let camera:PerspectiveCamera
 const setCamera = () => {
   const {x, y, z} = defaultMap
   camera = new PerspectiveCamera(25, innerWidth / innerHeight, 1, 500 )
@@ -107,6 +84,7 @@ const setCamera = () => {
 
 }
 // 设置模型控制
+let controls:OrbitControls
 const setControls = () => {
   controls = new OrbitControls(camera, renderer.domElement)
   controls.enablePan = false; //禁止右键拖拽
@@ -164,13 +142,14 @@ const material = new MeshPhysicalMaterial({
   ior:2
 })
 //设置车身颜色
-const setCarColor = (index:number) => {
-  const currentColor = new Color(colorAry[index])
+let carColor = 'Object_6'
+let color = ref("#222")
+console.log(color)
+const setCarColor = () => {
   scene.traverse(child => {
     if (child.isMesh && child.name === carColor) {
       //console.log(child.material.color)
-      child.material.color.set(currentColor)
-      console.log(child)
+      child.material.color.set(color.value)
       // if (child.name.includes('door_')) {
       //   child.material.color.set(currentColor)
       // }
@@ -178,6 +157,10 @@ const setCarColor = (index:number) => {
   })
 }
 //加载模型
+let isLoading = ref(true) //是否显示loading  这个load模型监听的进度
+let loadingWidth = ref(0)// loading的进度
+
+const loader = new GLTFLoader() //引入模型的loader实例
 const loadFile1 = (url:string) => {
   return new Promise(((resolve, reject) => {
     loader.load(url, (gltf) => {
@@ -215,6 +198,8 @@ const setPosition = (gltf:any) => {
 }
 
 //初始化所有函数
+let carName = 'free_jaguar_f-type_rigged_high-poly'
+let background = 'vr_exhibition_gallery_baked'
 const init = async () => {
   setScene()
   setCamera()
@@ -251,9 +236,7 @@ onMounted(init)
     </div>
     <div class="mask">
       <div class="flex">
-        <div @click="setCarColor(index)" v-for="(item,index) in colorAry"
-             :style="{backgroundColor : item}">
-        </div>
+        <input id="body-color" type="color" v-model="color" @input = setCarColor()>
       </div>
     </div>
   </div>
@@ -316,14 +299,11 @@ canvas {
 .flex {
   display: flex;
   flex-wrap: wrap;
-  /*padding: 20px;*/
-}
-
-.flex div {
-  width: 30px;
-  height: 30px;
-  margin: 10px 5px;
+  margin-bottom: 50px;
   cursor: pointer;
 }
-
+#body-color{
+  width: 30px;
+  height: 30px;
+}
 </style>
