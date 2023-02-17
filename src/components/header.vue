@@ -26,7 +26,9 @@
           <span>预约购车</span>
         </el-menu-item>
         <el-menu-item index="5">
-          <span>详细信息</span>
+          <el-popover placement="bottom-end" :width="400" trigger="hover">
+            <template #reference>详细信息</template>
+          </el-popover>
         </el-menu-item>
       </div>
       <div>
@@ -39,36 +41,36 @@
 </template>
 
 
-<style scoped>
+<style scoped lang="less">
 .header{
   position: fixed;
   opacity: 0.95;
-}
-.el-menu-vertical-demo{
-  background: #3c3c3b;
-  width: 100vw;
-  height: 9vh;
-  display: flex;
-  margin: 0;
-  align-items: center;
-  justify-content: space-between;
-  border: 0;
-}
-.el-menu-item{
-  font-size: 16px;
-  font-family: "阿里妈妈数黑体 Bold";
-  font-weight: 400;
-  scale: 0.8;
-  border-bottom: 2px solid transparent;
+  .el-menu-vertical-demo{
+    background: #3c3c3b;
+    width: 100vw;
+    height: 9vh;
+    display: flex;
+    margin: 0;
+    align-items: center;
+    justify-content: space-between;
+    border: 0;
+    .el-menu-item{
+      font-size: 16px;
+      font-family: "阿里妈妈数黑体 Bold",serif;
+      font-weight: 400;
+      scale: 0.8;
+      border-bottom: 2px solid transparent;
+    }
+    .center{
+      display: flex;
+      justify-content: center;
+    }
+  }
 }
 .el-menu--horizontal .el-menu-item:not(.is-disabled):focus, .el-menu--horizontal .el-menu-item:not(.is-disabled):hover{
   outline: 0;
   background: #3c3c3b;
   color: #ffd04b;
   border-bottom: 2px solid #ffd04b;
-}
-.center{
-  display: flex;
-  justify-content: center;
 }
 </style>

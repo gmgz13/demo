@@ -98,16 +98,16 @@ const setControls = () => {
   controls.dampingFactor = 0.11 // 动态阻尼系数
   controls.rotateSpeed = 0.5 //旋转速度
 }
-//相机放大范围
+//相机放大范围限制
 let around = 12
 const setCameraAnimate = () => {
   let x = camera.position.x
   let y = camera.position.y
   let z = camera.position.z
   let len = Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2)+Math.pow(z, 2))
-
+  let t = around/len
   if (len >= around){
-    camera.position.set(4, 2, 8);
+    camera.position.set(t*x, t*y, t*z);
     camera.lookAt(0,0,0);
   }
   requestAnimationFrame(setCameraAnimate);
@@ -144,11 +144,9 @@ const material = new MeshPhysicalMaterial({
 //设置车身颜色
 let carColor = 'Object_6'
 let color = ref("#222")
-console.log(color)
 const setCarColor = () => {
   scene.traverse(child => {
     if (child.isMesh && child.name === carColor) {
-      //console.log(child.material.color)
       child.material.color.set(color.value)
       // if (child.name.includes('door_')) {
       //   child.material.color.set(currentColor)
@@ -242,68 +240,64 @@ onMounted(init)
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .boxs{
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-}
+  .maskLoading {
+    background: #000;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1111111;
+    color: #fff;
+    .loading {
+      width: 40vw;
+      height: 20px;
+      border: 1px solid #fff;
+      background: #000;
+      overflow: hidden;
+      border-radius: 10px;
+      div {
+        background: #fff;
+        height: 20px;
+        width: 0;
+        transition-duration: 500ms;
+        transition-timing-function: ease-in;
+      }
+    }
+  }
+  .mask {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+      cursor: pointer;
 
-.maskLoading {
-  background: #000;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1111111;
-  color: #fff;
+      #body-color{
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
 }
-
-.maskLoading .loading {
-  width: 40vw;
-  height: 20px;
-  border: 1px solid #fff;
-  background: #000;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.maskLoading .loading div {
-  background: #fff;
-  height: 20px;
-  width: 0;
-  transition-duration: 500ms;
-  transition-timing-function: ease-in;
-}
-
 canvas {
   width: 100%;
   height: 100%;
   margin: auto;
 }
 
-.mask {
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 50px;
-  cursor: pointer;
-}
-#body-color{
-  width: 30px;
-  height: 30px;
-}
 </style>
