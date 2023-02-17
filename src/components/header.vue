@@ -1,4 +1,12 @@
 <script lang="ts" setup>
+import Detail from "./detail.vue";
+import {ref} from "vue";
+
+//控制组件
+const show = ref(false)
+const control = () =>{
+  show.value = !show.value
+}
 </script>
 <template>
   <div class="header">
@@ -25,10 +33,8 @@
         <el-menu-item index="4">
           <span>预约购车</span>
         </el-menu-item>
-        <el-menu-item index="5">
-          <el-popover placement="bottom-end" :width="400" trigger="hover">
-            <template #reference>详细信息</template>
-          </el-popover>
+        <el-menu-item index="5" @click = control()>
+          <span>详细信息</span>
         </el-menu-item>
       </div>
       <div>
@@ -37,6 +43,9 @@
         </el-menu-item>
       </div>
     </el-menu>
+    <div v-if="show" class="my_details">
+      <detail/>
+    </div>
   </div>
 </template>
 
@@ -44,7 +53,6 @@
 <style scoped lang="less">
 .header{
   position: fixed;
-  opacity: 0.95;
   .el-menu-vertical-demo{
     background: #3c3c3b;
     width: 100vw;
@@ -65,6 +73,13 @@
       display: flex;
       justify-content: center;
     }
+  }
+  .my_details{
+    position: absolute;
+    background: white;
+    width: 100vw;
+    height: 70vh;
+    top: 9vh;
   }
 }
 .el-menu--horizontal .el-menu-item:not(.is-disabled):focus, .el-menu--horizontal .el-menu-item:not(.is-disabled):hover{

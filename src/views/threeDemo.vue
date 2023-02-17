@@ -274,7 +274,6 @@ onMounted(init)
     }
   }
   .mask {
-    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -286,7 +285,6 @@ onMounted(init)
       flex-wrap: wrap;
       margin-bottom: 50px;
       cursor: pointer;
-
       #body-color{
         width: 30px;
         height: 30px;
