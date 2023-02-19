@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, ref} from 'vue'
 import {
   AmbientLight,
@@ -14,7 +14,7 @@ import {
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 
-let renderer:WebGLRenderer
+let renderer: WebGLRenderer
 
 //创建灯光
 let light1,
@@ -55,7 +55,7 @@ const setLight = () => {
 
 
 // 创建场景
-let scene:Scene
+let scene: Scene
 const setScene = () => {
   scene = new Scene()
   renderer = new WebGLRenderer({
@@ -76,15 +76,15 @@ const defaultMap = {
   z: 8,
 }// 相机的默认坐标
 
-let camera:PerspectiveCamera
+let camera: PerspectiveCamera
 const setCamera = () => {
   const {x, y, z} = defaultMap
-  camera = new PerspectiveCamera(25, innerWidth / innerHeight, 1, 500 )
+  camera = new PerspectiveCamera(25, innerWidth / innerHeight, 1, 500)
   camera.position.set(x, y, z)
 
 }
 // 设置模型控制
-let controls:OrbitControls
+let controls: OrbitControls
 const setControls = () => {
   controls = new OrbitControls(camera, renderer.domElement)
   controls.enablePan = false; //禁止右键拖拽
@@ -104,11 +104,11 @@ const setCameraAnimate = () => {
   let x = camera.position.x
   let y = camera.position.y
   let z = camera.position.z
-  let len = Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2)+Math.pow(z, 2))
-  let t = around/len
-  if (len >= around){
-    camera.position.set(t*x, t*y, t*z);
-    camera.lookAt(0,0,0);
+  let len = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2))
+  let t = around / len
+  if (len >= around) {
+    camera.position.set(t * x, t * y, t * z);
+    camera.lookAt(0, 0, 0);
   }
   requestAnimationFrame(setCameraAnimate);
 };
@@ -130,17 +130,18 @@ const loop = () => {
 
 //设置材质
 const material = new MeshPhysicalMaterial({
-  metalness:0.88,
-  roughness:0.38,
-  opacity:0.8,
-  clearcoat:0.1,
-  clearcoatRoughness:0.1,
+  metalness: 0.88,
+  roughness: 0.38,
+  opacity: 0.8,
+  clearcoat: 0.1,
+  clearcoatRoughness: 0.1,
   envMapIntensity: 2,
-  color:'#222',
-  transmission:0.1,
-  attenuationDistance:0.5,
-  ior:2
+  color: '#222',
+  transmission: 0.1,
+  attenuationDistance: 0.5,
+  ior: 2
 })
+
 //设置车身颜色
 let carColor = 'Object_6'
 let color = ref("#222")
@@ -154,12 +155,13 @@ const setCarColor = () => {
     }
   })
 }
+
 //加载模型
 let isLoading = ref(true) //是否显示loading  这个load模型监听的进度
 let loadingWidth = ref(0)// loading的进度
 
 const loader = new GLTFLoader() //引入模型的loader实例
-const loadFile1 = (url:string) => {
+const loadFile1 = (url: string) => {
   return new Promise(((resolve, reject) => {
     loader.load(url, (gltf) => {
           resolve(gltf)
@@ -179,20 +181,21 @@ const loadFile1 = (url:string) => {
     )
   }))
 }
+
 //创建网格地面
 // const setHelper = () => {
 //   const gridHelper = new GridHelper(100,80,'0x888888','0x888888')
 //   scene.add(gridHelper)
 // }
 //设置模型位置
-const setPosition = (gltf:any) => {
+const setPosition = (gltf: any) => {
   const box = new Box3().setFromObject(gltf.scene);
   //console.log(box)
   //向量坐标
-  const x = -(Math.abs(box.max.x + box.min.x)/2)
+  const x = -(Math.abs(box.max.x + box.min.x) / 2)
   const y = -(Math.abs(box.max.y + box.min.y) / 2)
   const z = -(Math.abs(box.max.z + box.min.z) / 2)
-  gltf.scene.position.set(x, y,z );
+  gltf.scene.position.set(x, y, z);
 }
 
 //初始化所有函数
@@ -204,11 +207,11 @@ const init = async () => {
   setLight()
   setControls()
   setContactShadow()
-  const gltf1 :any = await loadFile1(`public/models/${carName}/scene.gltf`)
-  const gltf2 :any = await loadFile1(`public/models/${background}/scene.gltf`)
+  const gltf1: any = await loadFile1(`public/models/${carName}/scene.gltf`)
+  const gltf2: any = await loadFile1(`public/models/${background}/scene.gltf`)
   //直接添加模型后会把模型的一个角对准坐标轴的原点，获取模型的大小除2计算后设置位置,让坐标轴原点刚好在模型的正中心，方便后续操作
-  gltf2.scene.position.set(-9,-0.75,0)
-  gltf2.scene.scale.set(0.5,2,0.5)
+  gltf2.scene.position.set(-9, -0.75, 0)
+  gltf2.scene.scale.set(0.5, 2, 0.5)
   setPosition(gltf1)
   // 设置相机运动动画
   setCameraAnimate();
@@ -216,7 +219,9 @@ const init = async () => {
   renderer.setClearColor('#000')
   scene.add(gltf1.scene)
   scene.add(gltf2.scene)
-  scene.traverse(child => {if (child.isMesh && child.name == carColor) child.material = material})
+  scene.traverse(child => {
+    if (child.isMesh && child.name == carColor) child.material = material
+  })
 
 
   loop()
@@ -227,24 +232,25 @@ onMounted(init)
 
 <template>
   <div class="boxs">
-    <div class="maskLoading" v-if="isLoading">
+    <div v-if="isLoading" class="maskLoading">
       <div class="loading">
         <div :style="{width : loadingWidth +'%' }"></div>
       </div>
     </div>
     <div class="mask">
       <div class="flex">
-        <input id="body-color" type="color" v-model="color" @input = setCarColor()>
+        <input id="body-color" v-model="color" type="color" @input=setCarColor()>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped lang="less">
-.boxs{
+<style lang="less" scoped>
+.boxs {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+
   .maskLoading {
     background: #000;
     position: fixed;
@@ -255,8 +261,9 @@ onMounted(init)
     left: 0;
     bottom: 0;
     right: 0;
-    z-index: 1111111;
+    z-index: 1;
     color: #fff;
+
     .loading {
       width: 40vw;
       height: 20px;
@@ -264,6 +271,7 @@ onMounted(init)
       background: #000;
       overflow: hidden;
       border-radius: 10px;
+
       div {
         background: #fff;
         height: 20px;
@@ -273,25 +281,27 @@ onMounted(init)
       }
     }
   }
+
   .mask {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     width: 100%;
+
     .flex {
-      display: flex;
-      flex-wrap: wrap;
       margin-bottom: 50px;
       cursor: pointer;
-      #body-color{
+
+      #body-color {
         width: 30px;
         height: 30px;
       }
     }
   }
 }
+
 canvas {
   width: 100%;
   height: 100%;
