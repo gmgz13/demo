@@ -2,22 +2,24 @@
 import Detail from "./detail.vue";
 import {ref} from "vue";
 import Models from "./models.vue";
+import router from "../router";
 
 //控制组件
 const details = ref(false)
 const showDetails = () => {
-  details.value = true
-}
-const hideDetails = () => {
-  details.value = false
+  details.value = !details.value
 }
 
 const model = ref(false)
 const shouModels = () => {
-  model.value = true
+  model.value = !model.value
 }
-const hideModels = () => {
-  model.value = false
+const backHome = () =>{
+  router.go(-1)
+  //location.reload()
+}
+const order = () =>{
+  router.push("/order")
 }
 </script>
 <template>
@@ -33,19 +35,19 @@ const hideModels = () => {
         <el-menu-item disabled><span>图标</span></el-menu-item>
       </div>
       <div class="center">
-        <el-menu-item index="1">
+        <el-menu-item index="1" @click="backHome()">
           <span>主页</span>
         </el-menu-item>
         <el-menu-item index="2">
           <span>心愿单</span>
         </el-menu-item>
-        <el-menu-item index="3" @mouseenter="shouModels()">
+        <el-menu-item index="3" @click="shouModels()">
           <span>车型</span>
         </el-menu-item>
-        <el-menu-item index="4">
+        <el-menu-item index="4" @click="order()">
           <span>预约购车</span>
         </el-menu-item>
-        <el-menu-item index="5" @mouseenter="showDetails()">
+        <el-menu-item index="5" @click="showDetails()">
           <span>详细信息</span>
         </el-menu-item>
       </div>
@@ -57,10 +59,10 @@ const hideModels = () => {
         </el-menu-item>
       </div>
     </el-menu>
-    <div v-show="details" class="my_details" @mouseleave="hideDetails()">
+    <div v-show="details" class="my_details">
       <Detail/>
     </div>
-    <div v-show="model" class="my_models" @mouseleave="hideModels()">
+    <div v-show="model" class="my_models">
       <Models/>
     </div>
   </div>

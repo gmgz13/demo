@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import {onMounted, ref} from 'vue'
+import {onBeforeUnmount, onMounted, ref} from 'vue'
 import {
   AmbientLight,
   Box3,
   DirectionalLight,
-  Group,
-  MeshPhysicalMaterial,
+  Group, Mesh,
+  MeshPhysicalMaterial, Object3D,
   PerspectiveCamera,
   Scene,
   SpotLight,
@@ -31,10 +31,6 @@ const setLight = () => {
   light3 = new DirectionalLight(0xffffff, 0.8)
   light3.position.set(-5, 10, -5)
 
-  scene.add(light1)
-  scene.add(light2)
-  scene.add(light3)
-
   //聚光灯
   spotLight.position.set(0, 13, 0);
   //intensity - (可选参数) 光照强度。 缺省值 1。
@@ -46,11 +42,11 @@ const setLight = () => {
   spotLight.target.position.set(0, 0, 0);
 
   scene.add(spotLight.target);
-  scene.add(spotLight);
 
   //环境光
   ambientLight.intensity = 0.2;
-  scene.add(ambientLight);
+
+  scene.add(light1,light2,light3,spotLight,ambientLight)
 }
 
 
@@ -110,7 +106,7 @@ const setCameraAnimate = () => {
     camera.position.set(t * x, t * y, t * z);
     camera.lookAt(0, 0, 0);
   }
-  requestAnimationFrame(setCameraAnimate);
+   const animationId = requestAnimationFrame(setCameraAnimate);
 };
 //设置阴影
 const setContactShadow = () => {
@@ -147,7 +143,7 @@ let carColor = 'Object_6'
 let color = ref("#222")
 const setCarColor = () => {
   scene.traverse(child => {
-    if (child.isMesh && child.name === carColor) {
+    if (child instanceof Mesh && child.name === carColor) {
       child.material.color.set(color.value)
       // if (child.name.includes('door_')) {
       //   child.material.color.set(currentColor)
@@ -217,17 +213,22 @@ const init = async () => {
   setCameraAnimate();
 
   renderer.setClearColor('#000')
-  scene.add(gltf1.scene)
-  scene.add(gltf2.scene)
+  scene.add(gltf1.scene,gltf2.scene)
+
   scene.traverse(child => {
-    if (child.isMesh && child.name == carColor) child.material = material
+    if (child instanceof Mesh && child.name == carColor) child.material = material
   })
 
-
+  console.log(Object3D)
   loop()
 }
+
 //用vue钩子函数调用
 onMounted(init)
+
+onBeforeUnmount(() => {
+
+})
 </script>
 
 <template>
