@@ -15,7 +15,7 @@ const shouModels = () => {
   model.value = !model.value
 }
 const backHome = () =>{
-  router.go(-1)
+  router.push("/home")
   //location.reload()
 }
 const order = () =>{

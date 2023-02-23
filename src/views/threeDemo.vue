@@ -4,8 +4,8 @@ import {
   AmbientLight,
   Box3,
   DirectionalLight,
-  Group, Mesh,
-  MeshPhysicalMaterial, Object3D,
+  Group, Material, Mesh,
+  MeshPhysicalMaterial,
   PerspectiveCamera,
   Scene,
   SpotLight,
@@ -13,6 +13,10 @@ import {
 } from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+import ResourceTracker from "../utils/TrackResource";
+// 在外层定义resMgr和track
+let resMgr = new ResourceTracker();
+const track = resMgr.track.bind(resMgr);
 
 let renderer: WebGLRenderer
 
@@ -20,15 +24,15 @@ let renderer: WebGLRenderer
 let light1,
     light2,
     light3
-let spotLight = new SpotLight()
-let ambientLight = new AmbientLight()
+let spotLight = track(new SpotLight())
+let ambientLight = track(new AmbientLight())
 const setLight = () => {
   //单光源
-  light1 = new DirectionalLight(0xffffff, 0.8)
+  light1 = track(new DirectionalLight(0xffffff, 0.8))
   light1.position.set(5, 10, 5)
-  light2 = new DirectionalLight(0xffffff, 0.8)
+  light2 = track(new DirectionalLight(0xffffff, 0.8))
   light2.position.set(5, 10, -5)
-  light3 = new DirectionalLight(0xffffff, 0.8)
+  light3 = track(new DirectionalLight(0xffffff, 0.8))
   light3.position.set(-5, 10, -5)
 
   //聚光灯
@@ -96,6 +100,7 @@ const setControls = () => {
 }
 //相机放大范围限制
 let around = 12
+let animationId: number
 const setCameraAnimate = () => {
   let x = camera.position.x
   let y = camera.position.y
@@ -106,21 +111,22 @@ const setCameraAnimate = () => {
     camera.position.set(t * x, t * y, t * z);
     camera.lookAt(0, 0, 0);
   }
-   const animationId = requestAnimationFrame(setCameraAnimate);
+  animationId = requestAnimationFrame(setCameraAnimate);
 };
 //设置阴影
 const setContactShadow = () => {
-  const shadowGroup = new Group()
+  const shadowGroup = track(new Group())
   shadowGroup.position.set(0, -1.01, 0);
   shadowGroup.rotation.set(0, Math.PI / 2, 0);
   scene.add(shadowGroup);
 };
 
 // 循环场景 、相机、 位置更新
+let animationId2 :number
 const loop = () => {
   renderer.render(scene, camera)
   renderer.shadowMap.enabled = true
-  requestAnimationFrame(loop)
+  animationId2 = requestAnimationFrame(loop)
   controls.update()
 }
 
@@ -203,8 +209,8 @@ const init = async () => {
   setLight()
   setControls()
   setContactShadow()
-  const gltf1: any = await loadFile1(`public/models/${carName}/scene.gltf`)
-  const gltf2: any = await loadFile1(`public/models/${background}/scene.gltf`)
+  const gltf1: any = track(await loadFile1(`public/models/${carName}/scene.gltf`))
+  const gltf2: any = track(await loadFile1(`public/models/${background}/scene.gltf`))
   //直接添加模型后会把模型的一个角对准坐标轴的原点，获取模型的大小除2计算后设置位置,让坐标轴原点刚好在模型的正中心，方便后续操作
   gltf2.scene.position.set(-9, -0.75, 0)
   gltf2.scene.scale.set(0.5, 2, 0.5)
@@ -219,7 +225,6 @@ const init = async () => {
     if (child instanceof Mesh && child.name == carColor) child.material = material
   })
 
-  console.log(Object3D)
   loop()
 }
 
@@ -227,7 +232,17 @@ const init = async () => {
 onMounted(init)
 
 onBeforeUnmount(() => {
-
+  try {
+    scene.clear();
+    resMgr && resMgr.dispose()
+    renderer.dispose();
+    renderer.forceContextLoss();
+    cancelAnimationFrame(animationId)
+    cancelAnimationFrame(animationId2)
+    console.log(renderer.info)   //查看memery字段即可
+  }catch (e) {
+    console.log(e)
+  }
 })
 </script>
 
