@@ -40,14 +40,14 @@ const fit = "cover"
     border-bottom: 1px solid #5d5d5d;
     font-family: "阿里妈妈数黑体 Bold", serif;
     margin: 2.5%;
-    font-size: 11px;
+    font-size: 0.6rem;
     color: #5d5d5d;
 
     .main {
       color: #444;
-      margin: 5px 0;
-      font-size: 13px;
-      line-height: 15px;
+      margin: 0.8rem 0;
+      font-size: 0.8rem;
+      line-height: 0.85rem;
     }
 
     .my_text {
@@ -56,7 +56,7 @@ const fit = "cover"
       align-items: center;
 
       div {
-        padding: 2px 0;
+        padding: 0.15rem 0;
       }
     }
   }

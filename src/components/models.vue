@@ -43,38 +43,38 @@
 
     .text {
       font-family: "阿里妈妈数黑体 Bold ", serif;
-      margin: 25px;
+      margin: 1.6rem;
 
       .header {
-        padding-bottom: 20px;
+        padding-bottom: 1.2rem;
         border-bottom: 1px solid #dedede;
         letter-spacing: .04em;
         line-height: 1;
-        font-size: 17px;
+        font-size: 1.5rem;
         font-weight: 700;
         color: #141414;
-        margin-bottom: 12px;
+        margin-bottom: 1.2rem;
 
         .name {
-          margin-bottom: 12px;
+          margin-bottom: 1.2rem;
         }
 
         p {
-          font-size: 12px;
+          font-size: .6rem;
           font-weight: 500;
           color: rgba(68, 68, 68, .8);
         }
       }
 
       .center {
-        font-size: 12px;
+        font-size: .6rem;
         color: rgba(68, 68, 68, .8);
         font-weight: 600;
         margin-top: 20px;
       }
 
       .footer {
-        margin: 10px 0;
+        margin: 0.7rem 0;
 
         .price {
           display: flex;
@@ -83,12 +83,12 @@
 
           .produce_price {
             color: #141414;
-            font-size: 18px;
+            font-size: 1.3rem;
             font-weight: 700;
           }
 
           .produce_button {
-            font-size: 12px;
+            font-size: .6rem;
             font-family: "阿里妈妈数黑体 Bold ", serif;
             font-weight: 700;
           }

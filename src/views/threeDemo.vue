@@ -281,8 +281,8 @@ onBeforeUnmount(() => {
     color: #fff;
 
     .loading {
-      width: 40vw;
-      height: 20px;
+      width: 25vw;
+      height: 1.6rem;
       border: 1px solid #fff;
       background: #000;
       overflow: hidden;
@@ -290,7 +290,7 @@ onBeforeUnmount(() => {
 
       div {
         background: #fff;
-        height: 20px;
+        height: 2rem;
         width: 0;
         transition-duration: 500ms;
         transition-timing-function: ease-in;
@@ -307,12 +307,12 @@ onBeforeUnmount(() => {
     width: 100%;
 
     .flex {
-      margin-bottom: 50px;
+      margin-bottom: 3rem;
       cursor: pointer;
 
       #body-color {
-        width: 30px;
-        height: 30px;
+        width: 2rem;
+        height: 2rem;
       }
     }
   }

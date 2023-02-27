@@ -10,7 +10,7 @@ const time = ref("")
 
 <template>
   <div class="order">
-    <div class="image">
+    <div>
       <el-image style="width: 71vw;height: 91vh" src="src/assets/7.jpg"/>
     </div>
     <div class="login">
