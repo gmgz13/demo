@@ -3,23 +3,41 @@ import Detail from "./detail.vue";
 import {ref} from "vue";
 import Models from "./models.vue";
 import router from "../router";
+import Wish from "./wish.vue";
 
 //控制组件
 const details = ref(false)
 const showDetails = () => {
   details.value = !details.value
+  model.value = false
+  wishes.value = false
 }
 
 const model = ref(false)
 const shouModels = () => {
   model.value = !model.value
+  wishes.value = false
+  details.value = false
 }
-const backHome = () =>{
+
+const wishes = ref(false)
+const shouWishes = () => {
+  wishes.value = !wishes.value
+  model.value = false
+  details.value = false
+}
+
+const backHome = () => {
   router.push("/home")
-  //location.reload()
+  model.value = false
+  details.value = false
+  wishes.value = false
 }
-const order = () =>{
+const order = () => {
   router.push("/order")
+  model.value = false
+  details.value = false
+  wishes.value = false
 }
 </script>
 <template>
@@ -38,7 +56,7 @@ const order = () =>{
         <el-menu-item index="1" @click="backHome()">
           <span>主页</span>
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="2" @click="shouWishes()">
           <span>心愿单</span>
         </el-menu-item>
         <el-menu-item index="3" @click="shouModels()">
@@ -64,6 +82,9 @@ const order = () =>{
     </div>
     <div v-show="model" class="my_models">
       <Models/>
+    </div>
+    <div v-show="wishes" class="my_likes">
+      <Wish/>
     </div>
   </div>
 </template>
@@ -97,7 +118,7 @@ const order = () =>{
     }
   }
 
-  .my_details, .my_models {
+  .my_details, .my_models, .my_likes {
     position: absolute;
     background: white;
     width: 100vw;
