@@ -29,14 +29,17 @@ const login = () => {
       <span v-else v-show="!wishes.length">您还没有保存的心愿单，快去配置您的爱车~</span>
     </div>
     <div class="wish_content">
-      <el-card v-for="(item,i) in wishes" v-show="isLogin && wishes.length" :key="i" class="card">
-        <template #header>
+      <el-card v-for="(item,i) in wishes" v-show="isLogin && wishes.length" :key="i" class="card" body-style="background:'#fffff'">
+        <div class="card_header">
           <div class="car_name">
             {{ item.Model }}
           </div>
-        </template>
+          <div>
+            <el-icon><Delete/></el-icon>
+          </div>
+        </div>
         <div class="card_detail">
-          <el-image src="src/assets/0004.jpg" style="width: 30vw; background: #f0f0f0;"/>
+          <el-image src="src/assets/0004.jpg" style="width: 25vw; background: #f0f0f0;"/>
           <div class="detail_context">
             <div>
               外观<span>{{ item.Appearance }}</span>
@@ -66,6 +69,7 @@ const login = () => {
   width: 100%;
   height: 100%;
   font-family: "阿里妈妈数黑体 Bold", serif;
+  background: #f5f5f5;
 
   .wish_header {
     position: absolute;
@@ -95,10 +99,19 @@ const login = () => {
 
     .card {
       margin: 5vh 5vw;
+      border-radius: 0;
+      box-shadow: none;
 
-      .car_name {
-        font-size: 1.25rem;
-        color: #000;
+      .card_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 1.15rem;
+        .car_name {
+          font-size: 1.25rem;
+          color: #000;
+        }
       }
 
       .card_detail {

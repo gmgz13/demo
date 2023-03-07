@@ -120,7 +120,7 @@ const order = () => {
 
   .my_details, .my_models, .my_likes {
     position: absolute;
-    background: white;
+    background: #f5f5f5;
     width: 100vw;
     height: 80vh;
     top: 9vh;
