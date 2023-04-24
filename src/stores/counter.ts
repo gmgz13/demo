@@ -47,7 +47,7 @@ export const useCounterStore = defineStore({
                         },
                         {
                             name: '最大扭矩(牛米/转每分)',
-                            data: '400'
+                                data: '400'
                         },
                         {
                             name: '变速箱',
@@ -84,7 +84,7 @@ export const useCounterStore = defineStore({
                             data: '1923'
                         },
                         {
-                            name: '后视镜展开后的车宽（毫米）',
+                                name: '后视镜展开后的车宽（毫米）',
                             data: '2042'
                         },
                         {

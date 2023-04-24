@@ -9,6 +9,18 @@ const wishes = ref([
     Appearance: ' 冰川白 |  18英寸5辐V型铝合金车轮 |  LED组合后尾灯（带可变化灯光功能） |  外后视镜电动调整、带加热功能',
     Interior: ' 化妆镜照明灯 |  铝饰条 |  V型压痕织物&Hoxton组合 |  黑灰 |  驾驶员座椅电动调节（带腰部支撑） |  三幅运动型多功能真皮方向盘 （带换挡拨片） |  10.25寸奥迪虚拟座舱',
     Price: '¥229,800'
+  },
+  {
+    Model: 'A3L Limousine 35TFSI 时尚致雅型 2022款 ',
+    Appearance: ' 冰川白 |  18英寸5辐V型铝合金车轮 |  LED组合后尾灯（带可变化灯光功能） |  外后视镜电动调整、带加热功能',
+    Interior: ' 化妆镜照明灯 |  铝饰条 |  V型压痕织物&Hoxton组合 |  黑灰 |  驾驶员座椅电动调节（带腰部支撑） |  三幅运动型多功能真皮方向盘 （带换挡拨片） |  10.25寸奥迪虚拟座舱',
+    Price: '¥229,800'
+  },
+  {
+    Model: 'A3L Limousine 35TFSI 时尚致雅型 2022款 ',
+    Appearance: ' 冰川白 |  18英寸5辐V型铝合金车轮 |  LED组合后尾灯（带可变化灯光功能） |  外后视镜电动调整、带加热功能',
+    Interior: ' 化妆镜照明灯 |  铝饰条 |  V型压痕织物&Hoxton组合 |  黑灰 |  驾驶员座椅电动调节（带腰部支撑） |  三幅运动型多功能真皮方向盘 （带换挡拨片） |  10.25寸奥迪虚拟座舱',
+    Price: '¥229,800'
   }
 ])
 
@@ -70,6 +82,9 @@ const login = () => {
   height: 100%;
   font-family: "阿里妈妈数黑体 Bold", serif;
   background: #f5f5f5;
+  overflow: scroll;
+  overflow-x: hidden;
+
 
   .wish_header {
     position: absolute;

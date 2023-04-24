@@ -15,6 +15,8 @@ import {
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 import ResourceTracker from "../utils/TrackResource";
+import request from "../utils/request";
+import axios from "axios";
 // 在外层定义resMgr和track
 let resMgr = new ResourceTracker();
 const track = resMgr.track.bind(resMgr);
@@ -98,22 +100,10 @@ const setControls = () => {
   controls.enableDamping = true //启用阻尼
   controls.dampingFactor = 0.11 // 动态阻尼系数
   controls.rotateSpeed = 0.5 //旋转速度
+  controls.maxDistance = 12 //相机缩放范围
+  controls.minDistance = 1 //相机放大问题
 }
-//相机放大范围限制
-let around = 12
-let animationId: number
-const setCameraAnimate = () => {
-  let x = camera.position.x
-  let y = camera.position.y
-  let z = camera.position.z
-  let len = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2))
-  let t = around / len
-  if (len >= around) {
-    camera.position.set(t * x, t * y, t * z);
-    camera.lookAt(0, 0, 0);
-  }
-  animationId = requestAnimationFrame(setCameraAnimate);
-};
+
 //设置阴影
 const setContactShadow = () => {
   const shadowGroup = track(new Group())
@@ -216,8 +206,6 @@ const init = async () => {
   gltf2.scene.position.set(-9, -0.75, 0)
   gltf2.scene.scale.set(0.5, 2, 0.5)
   setPosition(gltf1)
-  // 设置相机运动动画
-  setCameraAnimate();
 
   renderer.setClearColor('#000')
   scene.add(gltf1.scene,gltf2.scene)
@@ -231,6 +219,13 @@ const init = async () => {
 
 //用vue钩子函数调用
 onMounted(init)
+onMounted(()=>{
+    axios.get('http://localhost:3001/home').then(data =>{
+        console.log(data)
+    }).catch(err=>{
+        console.log(err)
+    })
+})
 
 onBeforeUnmount(() => {
   try {
@@ -238,13 +233,14 @@ onBeforeUnmount(() => {
     resMgr && resMgr.dispose()
     renderer.dispose();
     renderer.forceContextLoss();
-    cancelAnimationFrame(animationId)
     cancelAnimationFrame(animationId2)
     console.log(renderer.info)   //查看memery字段即可
   }catch (e) {
     console.log(e)
   }
 })
+
+
 </script>
 
 <template>
