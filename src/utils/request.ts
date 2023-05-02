@@ -7,9 +7,14 @@ interface ApiConfig {
 
 async function request(url: string, options: ApiConfig) {
 // 创建 axios 实例
+    const token = localStorage.getItem('token')
     const service = axios.create({
-        baseURL: "", // api base_url
-        timeout: 6000 // 请求超时时间
+        baseURL: "http://localhost:3000/api", // api base_url
+        timeout: 6000,// 请求超时时间
+        headers:{
+            'Authorization': `PEBA ${token}`,
+            'Content-Type': 'application/json'
+        }
     });
 // 请求拦截
     service.interceptors.request.use(config => {

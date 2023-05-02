@@ -17,6 +17,8 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 import ResourceTracker from "../utils/TrackResource";
 import request from "../utils/request";
 import axios from "axios";
+import {getDetail} from "../utils/api/getDetail";
+import {useCounterStore} from "../stores/counter";
 // 在外层定义resMgr和track
 let resMgr = new ResourceTracker();
 const track = resMgr.track.bind(resMgr);
@@ -218,13 +220,25 @@ const init = async () => {
 }
 
 //用vue钩子函数调用
+const counter = useCounterStore()
 onMounted(init)
-onMounted(()=>{
-    axios.get('http://localhost:3001/home').then(data =>{
-        console.log(data)
-    }).catch(err=>{
-        console.log(err)
+// onMounted(()=>{
+//     axios.get('http://localhost:3000/api/home',{
+//         headers:{
+//             'Content-Type': 'application/json'
+//         }
+//     }).then(data =>{
+//         console.log(data)
+//     }).catch(err=>{
+//         console.log(err)
+//     })
+// })
+onMounted(async ()=>{
+    const result = await getDetail()
+    counter.$patch({
+        car:result[0]
     })
+    //console.log(counter.car)
 })
 
 onBeforeUnmount(() => {
@@ -234,7 +248,7 @@ onBeforeUnmount(() => {
     renderer.dispose();
     renderer.forceContextLoss();
     cancelAnimationFrame(animationId2)
-    console.log(renderer.info)   //查看memery字段即可
+    //console.log(renderer.info)   //查看memery字段即可
   }catch (e) {
     console.log(e)
   }

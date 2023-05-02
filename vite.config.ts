@@ -7,6 +7,15 @@ export default defineConfig({
   plugins: [vue()],
   server:{
     port:3000,
-    hmr:true
-  }
+    hmr:true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:3001",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+
+  },
+
 })
