@@ -1,8 +1,14 @@
 <script lang="ts" setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {login} from "../utils/api/login";
+import axios from "axios";
+import {useCounterStore} from "../stores/counter";
+import router from "../router";
+import {storeToRefs} from "pinia";
 
-const phone = ref()
-const code = ref()
+
+const phone = ref('')
+const code = ref('')
 
 //获取验证码
 let check = ref(true)
@@ -18,6 +24,28 @@ const send = () => {
       check.value = !check.value
     }
   }, 1000)
+}
+
+const counter = useCounterStore()
+const { isLogin } = storeToRefs(counter)
+const getLogin = () =>{
+    const data  = {
+        phone:phone.value,
+        password:code.value
+    }
+
+    axios.post("http://localhost:3000/api/login", data).then(
+        res=>{
+            if (res.status ==200){
+                counter.user  = res
+                isLogin.value = true
+                router.push("/home")
+            }
+
+        }
+    )
+
+
 }
 </script>
 
@@ -41,7 +69,7 @@ const send = () => {
         </div>
       </div>
       <div class="login_foot">
-        <el-button class="login_button" color="#3c3c3b" size="large">登录</el-button>
+        <el-button class="login_button" color="#3c3c3b" size="large" @click="getLogin()">登录</el-button>
       </div>
     </el-card>
   </div>

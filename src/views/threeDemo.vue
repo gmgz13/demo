@@ -233,12 +233,12 @@ onMounted(init)
 //         console.log(err)
 //     })
 // })
+let id:number
 onMounted(async ()=>{
-    const result = await getDetail()
+    const result = await getDetail(id)
     counter.$patch({
         car:result[0]
     })
-    //console.log(counter.car)
 })
 
 onBeforeUnmount(() => {

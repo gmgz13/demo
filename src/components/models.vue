@@ -1,21 +1,41 @@
 <script lang="ts" setup>
+import {onMounted, ref} from "vue";
+import { getModel } from "../utils/api/getModel";
+import {getDetail} from "../utils/api/getDetail";
+import {useCounterStore} from "../stores/counter";
+import router from "../router";
+import {storeToRefs} from "pinia";
 
+let mode = ref({})
+onMounted(async ()=>{
+    mode.value = await getModel()
+})
+
+const counter = useCounterStore()
+const detail = async (id:any) =>{
+    const result = await getDetail(id)
+    counter.$patch({
+        car:result[0]
+    })
+}
 </script>
 
 <template>
   <div class="models">
-    <el-card v-for="(item,i) in 10" :key=i :body-style="{ padding: '0px' }" class="produce_card">
-      <img alt="捷豹" src="src/assets/4.avif" style="width: 30vw; background: #f0f0f0;"/>
+    <el-card v-for="(item,i) in mode" :key=i :body-style="{ padding: '0px' }" class="produce_card">
+      <img alt="捷豹" :src="`src/assets/${item.pic}`" style="width: 30vw; background: #f0f0f0;"/>
       <div class="text">
         <div class="header">
-          <h2 class="name">F-TYPE</h2>
-          <p>F-TYPE 硬顶版</p>
-          <p>P300后轮驱动自动档</p>
+          <h2 class="name">{{item.name}}</h2>
+          <p>{{item.detail[0]}}</p>
+          <p>{{item.detail[1]}}</p>
         </div>
-        <div class="center">了解车辆</div>
+        <div class="center">
+            <span class="detail" @click="detail(item._id)" >了解车辆</span>
+        </div>
         <div class="footer">
           <div class="price">
-            <span class="produce_price">¥676,800.00*起</span>
+            <span class="produce_price">{{item.price}}*起</span>
             <el-button class="produce_button" color="#3c3c3b" size="large">预约定购</el-button>
           </div>
         </div>
@@ -71,6 +91,10 @@
         color: rgba(68, 68, 68, .8);
         font-weight: 600;
         margin-top: 20px;
+
+        .detail{
+          cursor: pointer;
+        }
       }
 
       .footer {

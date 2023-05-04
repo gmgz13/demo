@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import {ref} from "vue";
 import router from "../router";
+import {useCounterStore} from "../stores/counter";
+import {storeToRefs} from "pinia";
 
-const isLogin = ref(true)
+const counter = useCounterStore()
+const { isLogin } = storeToRefs(counter)
 const wishes = ref([
   {
     Model: 'A3L Limousine 35TFSI 时尚致雅型 2022款 ',
@@ -36,9 +39,9 @@ const login = () => {
       <button v-show="!isLogin" class="login_button" @click="login()">登录</button>
     </div>
     <!--    有心愿单时显示  -->
-    <div v-if="!wishes.length" class="none">
+    <div v-if="!isLogin || !wishes.length" class="none">
       <span v-if="!isLogin">您还没有登录,请登录查看心愿单~</span>
-      <span v-else v-show="!wishes.length">您还没有保存的心愿单，快去配置您的爱车~</span>
+      <span v-else v-if="!wishes.length">您还没有保存的心愿单，快去配置您的爱车~</span>
     </div>
     <div class="wish_content">
       <el-card v-for="(item,i) in wishes" v-show="isLogin && wishes.length" :key="i" class="card" body-style="background:'#fffff'">

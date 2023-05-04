@@ -1,8 +1,8 @@
 import request from "../request";
 
-export function getDetail(id :number = 1){
+export function getModel(){
     return request(
-        `/detail?id=${id}`,
+        '/car',
         {
             body:{
                 method:'get',

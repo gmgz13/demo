@@ -7,20 +7,20 @@ import Wish from "./wish.vue";
 
 //控制组件
 const details = ref(false)
+const model = ref(false)
+const wishes = ref(false)
 const showDetails = () => {
   details.value = !details.value
   model.value = false
   wishes.value = false
 }
 
-const model = ref(false)
 const shouModels = () => {
   model.value = !model.value
   wishes.value = false
   details.value = false
 }
 
-const wishes = ref(false)
 const shouWishes = () => {
   wishes.value = !wishes.value
   model.value = false

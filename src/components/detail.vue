@@ -1,19 +1,17 @@
 <script lang="ts" setup>
 import {useCounterStore} from "../stores/counter";
 import {storeToRefs} from "pinia";
+import {ref} from "vue";
 
 const counter = useCounterStore()
 const { car } = storeToRefs(counter)
-const imageUrl = "src/assets/1.png"
 const fit = "cover"
-
-
 
 </script>
 
 <template>
   <div class="details">
-    <el-image :fit="fit" :src="imageUrl" alt="捷豹F‑TYPE" style="width: 50vw; height: 100%;"/>
+    <el-image :fit="fit" :src="`src/assets/${car.pic}`" alt="捷豹F‑TYPE" style="width: 50vw; height: 100%;"/>
     <ul>
       <li v-for="(item, i) in car.performance" :key=i class="specs__heading" style="list-style: none">
         <div class="main">{{ item.name }}</div>

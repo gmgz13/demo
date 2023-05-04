@@ -94,7 +94,9 @@ export const useCounterStore = defineStore({
             //         ]
             //     }
             // ]
-        }
+        },
+        user:{},
+        isLogin:false
     }),
     getters: {},
     actions: {},
