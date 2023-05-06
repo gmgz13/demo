@@ -1,13 +1,17 @@
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
-import {getModel} from "../utils/api/getModel";
+import {ref} from "vue";
+
+import {search} from "../utils/api/search";
 import {getDetail} from "../utils/api/getDetail";
 import {useCounterStore} from "../stores/counter";
 
-let mode = ref({})
-onMounted(async () => {
-    mode.value = await getModel()
-})
+let input = ref('')
+
+let data = ref({})
+const getSearch = async () => {
+    const result = await search(input.value)
+    data.value = result ? result : {}
+}
 
 const counter = useCounterStore()
 const detail = async (id: any) => {
@@ -19,8 +23,15 @@ const detail = async (id: any) => {
 </script>
 
 <template>
-    <div class="models">
-        <el-card v-for="(item,i) in mode" :key=i :body-style="{ padding: '0px' }" class="produce_card">
+    <el-input
+            v-model="input"
+            class="w-50 m-2 search_input"
+            placeholder="输入需要的内容"
+            size="large"
+            @keyup.enter.native="getSearch()"
+    />
+    <div class="search">
+        <el-card v-for="(item,i) in data" :key=i :body-style="{ padding: '0px' }" class="produce_card">
             <img :src="`src/assets/${item.pic}`" alt="捷豹" style="width: 30vw; background: #f0f0f0;"/>
             <div class="text">
                 <div class="header">
@@ -39,14 +50,13 @@ const detail = async (id: any) => {
                 </div>
             </div>
         </el-card>
-
     </div>
 </template>
 
 <style lang="less" scoped>
-.models {
+.search {
   width: 100%;
-  height: 100%;
+  height: 93%;
   display: flex;
   justify-content: center;
   align-items: center;

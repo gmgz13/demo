@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
-import {login} from "../utils/api/login";
+import {ref} from "vue";
 import axios from "axios";
 import {useCounterStore} from "../stores/counter";
 import router from "../router";
@@ -14,30 +13,30 @@ const code = ref('')
 let check = ref(true)
 let time = ref(60)
 const send = () => {
-  check.value = !check.value
-  let timer = setInterval(() => {
-    if (time.value > 0) {
-      time.value--
-    } else {
-      clearInterval(timer)
-      time.value = 60
-      check.value = !check.value
-    }
-  }, 1000)
+    check.value = !check.value
+    let timer = setInterval(() => {
+        if (time.value > 0) {
+            time.value--
+        } else {
+            clearInterval(timer)
+            time.value = 60
+            check.value = !check.value
+        }
+    }, 1000)
 }
 
 const counter = useCounterStore()
-const { isLogin } = storeToRefs(counter)
-const getLogin = () =>{
-    const data  = {
-        phone:phone.value,
-        password:code.value
+const {isLogin} = storeToRefs(counter)
+const getLogin = () => {
+    const data = {
+        phone: phone.value,
+        password: code.value
     }
 
     axios.post("http://localhost:3000/api/login", data).then(
-        res=>{
-            if (res.status ==200){
-                counter.user  = res
+        res => {
+            if (res.status == 200) {
+                counter.user = res
                 isLogin.value = true
                 router.push("/home")
             }
@@ -50,29 +49,29 @@ const getLogin = () =>{
 </script>
 
 <template>
-  <div class="login">
-    <el-image src="src/assets/兰博基尼.jpg" style="width: 100vw; height: 91vh"/>
-    <el-card class="box-card">
-      <h2>
-        欢迎使用
-      </h2>
-      <div class="login_center">
-        <div class="phone">
-          <span>手机号</span>
-          <input v-model="phone" class="input" placeholder="请输入手机号"/>
-        </div>
-        <div class="code">
-          <span>验证码</span>
-          <input v-model="code" class="input" placeholder="请输入验证码"/>
-          <el-button v-show="check" class="check" color="#3c3c3b" @click="send()">获取验证码</el-button>
-          <el-button v-show="!check" class="check" color="#3c3c3b" loading>{{ time }}s</el-button>
-        </div>
-      </div>
-      <div class="login_foot">
-        <el-button class="login_button" color="#3c3c3b" size="large" @click="getLogin()">登录</el-button>
-      </div>
-    </el-card>
-  </div>
+    <div class="login">
+        <el-image src="src/assets/兰博基尼.jpg" style="width: 100vw; height: 91vh"/>
+        <el-card class="box-card">
+            <h2>
+                欢迎使用
+            </h2>
+            <div class="login_center">
+                <div class="phone">
+                    <span>手机号</span>
+                    <input v-model="phone" class="input" placeholder="请输入手机号"/>
+                </div>
+                <div class="code">
+                    <span>验证码</span>
+                    <input v-model="code" class="input" placeholder="请输入验证码"/>
+                    <el-button v-show="check" class="check" color="#3c3c3b" @click="send()">获取验证码</el-button>
+                    <el-button v-show="!check" class="check" color="#3c3c3b" loading>{{ time }}s</el-button>
+                </div>
+            </div>
+            <div class="login_foot">
+                <el-button class="login_button" color="#3c3c3b" size="large" @click="getLogin()">登录</el-button>
+            </div>
+        </el-card>
+    </div>
 </template>
 
 <style lang="less" scoped>
@@ -121,8 +120,8 @@ const getLogin = () =>{
           font-weight: 600;
           width: 5rem;
           position: absolute;
-          right: 2.5rem;
-          top: 40%;
+          right: 3rem;
+          top: 41.5%;
         }
       }
     }

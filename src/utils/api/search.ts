@@ -1,8 +1,8 @@
 import request from "../request";
 
-export function getModel() {
+export function search(data: string) {
     return request(
-        '/car',
+        `/search?data=${data}`,
         {
             method: 'get',
             body: {},

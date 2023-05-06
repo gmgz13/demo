@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 interface ApiConfig {
-    body: object;
+    method: string
+    body: object
     data: object
 }
 
@@ -11,7 +12,7 @@ async function request(url: string, options: ApiConfig) {
     const service = axios.create({
         baseURL: "http://localhost:3000/api", // api base_url
         timeout: 6000,// 请求超时时间
-        headers:{
+        headers: {
             'Authorization': `PEBA ${token}`,
             'Content-Type': 'application/json'
         }
@@ -22,6 +23,7 @@ async function request(url: string, options: ApiConfig) {
         if (options && options.body) {
             config.data = options.body;
         }
+
         return config;
     });
 // 返回拦截
