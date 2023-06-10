@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import {ref} from "vue";
+import {h, ref} from "vue";
 import axios from "axios";
 import {useCounterStore} from "../stores/counter";
 import router from "../router";
 import {storeToRefs} from "pinia";
+import {ElNotification} from "element-plus";
 
 
 const phone = ref('')
@@ -38,7 +39,16 @@ const getLogin = () => {
             if (res.status == 200) {
                 counter.user = res
                 isLogin.value = true
+                ElNotification({
+                    title: '提示',
+                    message: h('i', { style: 'color: teal' }, '登陆成功'),
+                })
                 router.push("/home")
+            }else {
+                ElNotification({
+                    title: '提示',
+                    message: h('i', { style: 'color: yellow' }, '登陆失败'),
+                })
             }
 
         }

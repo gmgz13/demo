@@ -3,6 +3,10 @@ import {onMounted, ref} from "vue";
 import {getModel} from "../utils/api/getModel";
 import {getDetail} from "../utils/api/getDetail";
 import {useCounterStore} from "../stores/counter";
+import router from "../router";
+import {storeToRefs} from "pinia";
+import {update} from "../utils/api/update";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 let mode = ref({})
 onMounted(async () => {
@@ -13,15 +17,53 @@ const counter = useCounterStore()
 const detail = async (id: any) => {
     const result = await getDetail(id)
     counter.$patch({
-        car: result[0]
+        car: result[0],
+        carName: "aston_marten_db11_car"
     })
+    console.log(counter.carName)
+}
+
+let {isLogin} = storeToRefs(counter)
+const check = async (id:string) =>{
+    const data = {
+        id: id,
+    }
+    console.log(isLogin.value)
+    if (isLogin.value){
+        //console.log(data)
+    await update(data).then(
+        res =>{
+            console.log(res)
+        }
+    )
+        ElMessageBox.confirm(
+            '添加愿望单吗？',
+            '提示',
+            {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                type: 'warning',
+            }
+        )
+            .then(() => {
+                ElMessage({
+                    type: 'success',
+                    message: '提交成功',
+                })
+            })
+    }else router.push("/login")
+}
+
+
+const reservation = () =>{
+    router.push('/order')
 }
 </script>
 
 <template>
     <div class="models">
         <el-card v-for="(item,i) in mode" :key=i :body-style="{ padding: '0px' }" class="produce_card">
-            <img :src="`src/assets/${item.pic}`" alt="捷豹" style="width: 30vw; background: #f0f0f0;"/>
+            <img :src="`src/assets/${item.pic}`" style="width: 30vw; height: 40vh; background: #f0f0f0;"/>
             <div class="text">
                 <div class="header">
                     <h2 class="name">{{ item.name }}</h2>
@@ -34,7 +76,10 @@ const detail = async (id: any) => {
                 <div class="footer">
                     <div class="price">
                         <span class="produce_price">{{ item.price }}*起</span>
-                        <el-button class="produce_button" color="#3c3c3b" size="large">预约定购</el-button>
+                        <div>
+                            <el-button class="produce_button" color="#3c3c3b" size="large" @click="check(item._id)">添加心愿单</el-button>
+                            <el-button class="produce_button" color="#3c3c3b" size="large" @click="reservation()">预约定购</el-button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,7 +101,7 @@ const detail = async (id: any) => {
 
   .produce_card {
     width: 30vw;
-    height: 65vh;
+    height: 70vh;
     margin: 5vh 5vw;
 
     .text {

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Audi A7 Sportback 2018
+* source:	https://sketchfab.com/3d-models/audi-a7-sportback-2018-95700e5a98904b3591c6a03a4b67787b
+* author:	KiW (https://sketchfab.com/kiwkoner)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Audi A7 Sportback 2018" (https://sketchfab.com/3d-models/audi-a7-sportback-2018-95700e5a98904b3591c6a03a4b67787b) by KiW (https://sketchfab.com/kiwkoner) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

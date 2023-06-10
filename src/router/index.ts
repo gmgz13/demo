@@ -3,6 +3,7 @@ import home from "../views/home.vue";
 import threeDemo from "../views/threeDemo.vue";
 import order from "../views/order.vue";
 import login from "../views/login.vue";
+import person from "../views/person.vue"
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
                     path:'/login',
                     name:'login',
                     component:login,
+                },
+                {
+                    path:'/person',
+                    name:'person',
+                    component:person,
                 },
             ]
         }

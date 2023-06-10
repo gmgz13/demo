@@ -4,6 +4,7 @@ import router from "../router";
 import {useCounterStore} from "../stores/counter";
 import {storeToRefs} from "pinia";
 import {wish} from "../utils/api/Wish";
+import {ElMessage} from "element-plus";
 
 const counter = useCounterStore()
 const {isLogin, user} = storeToRefs(counter)
@@ -45,7 +46,19 @@ const login = () => {
     router.push("/login")
 }
 
-const deleteWish = () => {
+const deleteWish = (id:string) => {
+    ElMessage({
+        type: 'success',
+        message: '删除成功',
+    })
+    wishes.value.pop()
+}
+
+const open = () =>{
+    router.push("/person")
+}
+const order = () =>{
+    router.push("/order")
 }
 </script>
 
@@ -53,6 +66,7 @@ const deleteWish = () => {
     <div class="wish">
         <div class="wish_header">
             <button v-show="!isLogin" class="login_button" @click="login()">登录</button>
+            <button v-show="isLogin" class="login_button" @click="open()">14747691777</button>
         </div>
         <!--    有心愿单时显示  -->
         <div v-if="!isLogin || !wishes.length" class="none">
@@ -68,9 +82,18 @@ const deleteWish = () => {
                         {{ item.model }}
                     </div>
                     <div>
-                        <el-icon @click="deleteWish(item.id)">
-                            <Delete/>
-                        </el-icon>
+                        <el-popconfirm
+                            confirm-button-text="是的"
+                            cancel-button-text="取消"
+                            title="确定要删除吗？"
+                            @confirm="deleteWish(item._id)"
+                        >
+                            <template #reference>
+                                <el-icon>
+                                    <Delete/>
+                                </el-icon>
+                            </template>
+                        </el-popconfirm>
                     </div>
                 </div>
                 <div class="card_detail">
@@ -90,8 +113,7 @@ const deleteWish = () => {
                         <span>市场指导价</span>
                     </div>
                     <div>
-                        <el-button class="produce_button_detail" color="white" size="large">查看详情</el-button>
-                        <el-button class="produce_button_order" color="#3c3c3b" size="large">去下单</el-button>
+                        <el-button color="#3c3c3b" size="large" @click="order()">去下单</el-button>
                     </div>
                 </div>
             </el-card>

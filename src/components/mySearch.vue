@@ -4,6 +4,10 @@ import {ref} from "vue";
 import {search} from "../utils/api/search";
 import {getDetail} from "../utils/api/getDetail";
 import {useCounterStore} from "../stores/counter";
+import router from "../router";
+import {update} from "../utils/api/update";
+import {storeToRefs} from "pinia";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 let input = ref('')
 
@@ -20,6 +24,39 @@ const detail = async (id: any) => {
         car: result[0]
     })
 }
+
+let {isLogin} = storeToRefs(counter)
+const check = async (id:string) =>{
+    const data = {
+        id: id,
+    }
+    if (isLogin){
+        //console.log(data)
+        await update(data).then(
+            res =>{
+                console.log(res)
+            }
+        )
+        ElMessageBox.confirm(
+            '添加愿望单吗？',
+            '提示',
+            {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                type: 'warning',
+            }
+        )
+            .then(() => {
+                ElMessage({
+                    type: 'success',
+                    message: '提交成功',
+                })
+            })
+    }else router.push("/login")
+}
+const reservation = () =>{
+    router.push('/order')
+}
 </script>
 
 <template>
@@ -32,7 +69,7 @@ const detail = async (id: any) => {
     />
     <div class="search">
         <el-card v-for="(item,i) in data" :key=i :body-style="{ padding: '0px' }" class="produce_card">
-            <img :src="`src/assets/${item.pic}`" alt="捷豹" style="width: 30vw; background: #f0f0f0;"/>
+            <img :src="`src/assets/${item.pic}`" alt="捷豹" style="width: 30vw;height: 40vh; background: #f0f0f0;"/>
             <div class="text">
                 <div class="header">
                     <h2 class="name">{{ item.name }}</h2>
@@ -45,7 +82,10 @@ const detail = async (id: any) => {
                 <div class="footer">
                     <div class="price">
                         <span class="produce_price">{{ item.price }}*起</span>
-                        <el-button class="produce_button" color="#3c3c3b" size="large">预约定购</el-button>
+                        <div>
+                            <el-button class="produce_button" color="#3c3c3b" size="large" @click="check(item._id)">添加心愿单</el-button>
+                            <el-button class="produce_button" color="#3c3c3b" size="large" @click="reservation()">预约定购</el-button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,7 +106,7 @@ const detail = async (id: any) => {
 
   .produce_card {
     width: 30vw;
-    height: 65vh;
+    height: 70vh;
     margin: 5vh 5vw;
 
     .text {

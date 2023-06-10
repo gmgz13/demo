@@ -15,6 +15,7 @@
     "pinia": "^2.0.29",
     "three": "^0.148.0",
     "vue": "^3.2.37",
+    "vue-baidu-map-3x": "^1.0.33",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

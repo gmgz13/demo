@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {onBeforeUnmount, onMounted, ref} from 'vue'
+import {onBeforeUnmount, onMounted, ref, watch} from 'vue'
 import {
   AmbientLight,
   Box3,
@@ -19,6 +19,9 @@ import request from "../utils/request";
 import axios from "axios";
 import {getDetail} from "../utils/api/getDetail";
 import {useCounterStore} from "../stores/counter";
+import {wish} from "../utils/api/Wish";
+import {storeToRefs} from "pinia";
+import router from "../router";
 // 在外层定义resMgr和track
 let resMgr = new ResourceTracker();
 const track = resMgr.track.bind(resMgr);
@@ -177,11 +180,6 @@ const loadFile1 = (url: string) => {
   }))
 }
 
-//创建网格地面
-// const setHelper = () => {
-//   const gridHelper = new GridHelper(100,80,'0x888888','0x888888')
-//   scene.add(gridHelper)
-// }
 //设置模型位置
 const setPosition = (gltf: any) => {
   const box = new Box3().setFromObject(gltf.scene);
@@ -194,7 +192,11 @@ const setPosition = (gltf: any) => {
 }
 
 //初始化所有函数
-let carName = 'free_jaguar_f-type_rigged_high-poly'
+let carName1 = 'free_jaguar_f-type_rigged_high-poly'
+let carName2 = "aston_marten_db11_car"
+const counter = useCounterStore()
+const {carName} = storeToRefs(counter)
+
 let background = 'vr_exhibition_gallery_baked'
 const init = async () => {
   setScene()
@@ -202,8 +204,8 @@ const init = async () => {
   setLight()
   setControls()
   setContactShadow()
-  const gltf1: any = track(await loadFile1(`public/models/${carName}/scene.gltf`))
-  const gltf2: any = track(await loadFile1(`public/models/${background}/scene.gltf`))
+  const gltf1: any = track(await loadFile1(`/models/${carName1}/scene.gltf`))
+  const gltf2: any = track(await loadFile1(`/models/${background}/scene.gltf`))
   //直接添加模型后会把模型的一个角对准坐标轴的原点，获取模型的大小除2计算后设置位置,让坐标轴原点刚好在模型的正中心，方便后续操作
   gltf2.scene.position.set(-9, -0.75, 0)
   gltf2.scene.scale.set(0.5, 2, 0.5)
@@ -218,21 +220,10 @@ const init = async () => {
 
   loop()
 }
-
 //用vue钩子函数调用
-const counter = useCounterStore()
+
 onMounted(init)
-// onMounted(()=>{
-//     axios.get('http://localhost:3000/api/home',{
-//         headers:{
-//             'Content-Type': 'application/json'
-//         }
-//     }).then(data =>{
-//         console.log(data)
-//     }).catch(err=>{
-//         console.log(err)
-//     })
-// })
+
 let id:number
 onMounted(async ()=>{
     const result = await getDetail(id)
@@ -288,7 +279,7 @@ onBeforeUnmount(() => {
     left: 0;
     bottom: 0;
     right: 0;
-    z-index: 1;
+    z-index: 999;
     color: #fff;
 
     .loading {
@@ -322,6 +313,7 @@ onBeforeUnmount(() => {
       cursor: pointer;
 
       #body-color {
+        z-index: 999;
         width: 2rem;
         height: 2rem;
       }

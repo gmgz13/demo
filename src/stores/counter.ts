@@ -7,6 +7,7 @@ export const useCounterStore = defineStore({
             // id: 1,
             // name: '',
             // color: '',
+            // pic:'',
             // performance: [
             //     {
             //         name: '跑车级性能表现',
@@ -96,7 +97,8 @@ export const useCounterStore = defineStore({
             // ]
         },
         user:{},
-        isLogin:false
+        isLogin:false,
+        carName:'free_jaguar_f-type_rigged_high-poly'
     }),
     getters: {},
     actions: {},

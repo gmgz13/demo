@@ -20,8 +20,8 @@ async function request(url: string, options: ApiConfig) {
 // 请求拦截
     service.interceptors.request.use(config => {
 // 这里可设置请求头等信息
-        if (options && options.body) {
-            config.data = options.body;
+        if (options && options.data) {
+            config.data = options.data;
         }
 
         return config;
